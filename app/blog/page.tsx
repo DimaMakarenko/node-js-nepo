@@ -1,30 +1,31 @@
+'use client';
+
+import { PostSearch } from "@/components/PostSearch";
+import { Posts } from "@/components/Posts";
+import { getAllPosts } from "@/services/getPosts";
+import { TPost } from "@/types/index.dt";
 import { Metadata } from "next"
-import Link from "next/link";
+import { useEffect, useState } from "react";
 
-async function getData () {
-  const response = await fetch ('https://jsonplaceholder.typicode.com/posts', {
-    next: {
-      revalidate: 60
-    }
-  });
-
-  return response.json()
+export const metadata: Metadata = {
+  title: 'Blog | DM'
 }
 
-export const metadata:Metadata ={
-title: 'Blog | DM'
-}
-export default async function Blog () {
-const posts = await getData();
+export default async function Blog() {
+  const [posts, setPosts] = useState<TPost[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    getAllPosts().then(setPosts).finally(() => setLoading(false))
+  }, []);
 
   return (
     <>
-    <h1>Blog page</h1>
-    <ul>
-      {posts.map((post:any) => <li key={post.id}>
-        <Link href={`/blog/${post.id}`}>{post.title}</Link>
-      </li>)}
-    </ul>
+      <h1 className="text-xl font-bold mb-2 text-center">Blog page</h1>
+      <PostSearch onSearch={setPosts} />
+      {loading ? <h3>Loading...</h3> :
+        <Posts posts={posts} />
+      }
     </>
   )
 }

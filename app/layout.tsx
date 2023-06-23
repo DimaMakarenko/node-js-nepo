@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body className='flex min-h-screen flex-col'>
         <Header />
-        <main className='flex flex-1'>
+        <main className='flex flex-1 max-w-7xl mx-auto flex-col'>
         {children}
         </main>
         <Footer />
