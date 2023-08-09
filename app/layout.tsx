@@ -1,6 +1,7 @@
 import './globals.css'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
+import { Providers } from '@/components/Providers'
 
 
 export const metadata = {
@@ -15,12 +16,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className='flex min-h-screen flex-col'>
+      <body className='flex min-h-screen flex-col' suppressHydrationWarning={true}>
+        <Providers>
         <Header />
         <main className='flex flex-1 max-w-7xl mx-auto flex-col'>
         {children}
         </main>
         <Footer />
+        </Providers>
       </body>
     </html>
   )
